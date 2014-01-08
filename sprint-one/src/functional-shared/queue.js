@@ -17,11 +17,12 @@ var queueMethods = {
 
   dequeue: function(){
     if( this.len ){
+      var that = this;
       var temp = this.storage[0];
       //debugger;
       _.each(this.storage, function(value, key){
         if(+key){
-          this.storage[key - 1] = this.storage[key];
+          that.storage[key - 1] = that.storage[key];
         }
       });
       delete this.storage[this.len - 1];
