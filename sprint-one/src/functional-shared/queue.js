@@ -16,10 +16,9 @@ var queueMethods = {
   },
 
   dequeue: function(){
-    
     if( this.len ){
       var temp = this.storage[0];
-      debugger;
+      //debugger;
       _.each(this.storage, function(value, key){
         if(+key){
           this.storage[key - 1] = this.storage[key];
