@@ -1,17 +1,12 @@
 var makeStack = function(){
-  var instance = {};
+  var instance = Object.create(stackMethods);
 
   // Use an object with numeric keys to store values
   instance.storage = {};
   instance.sizeOf = 0; // Hint: set an initial value here
 
   // Implement the methods below
-  var extend = function(copyTo, copyFrom) {
-    for (var property in copyFrom) {
-        copyTo[property] = copyFrom[property];
-    }
-};
-extend(instance, stackMethods);
+
   
   return instance;
 };
