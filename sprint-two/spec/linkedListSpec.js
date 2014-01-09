@@ -32,7 +32,7 @@ describe("linkedList", function() {
     expect(linkedList.head.value).to.equal(4);
     console.log(linkedList)
     linkedList.removeHead();
-        console.log(linkedList) 
+        //console.log(linkedList) 
     expect(linkedList.head.value).to.equal(5);
   });
 
@@ -52,4 +52,20 @@ describe("linkedList", function() {
   });
 
   // add more tests here to test the functionality of linkedList
+  it("should not break when lopping off too many heads", function(){
+    linkedList.addToTail(4);
+    linkedList.removeHead();
+    linkedList.removeHead();
+    linkedList.removeHead();
+    linkedList.removeHead();
+    linkedList.removeHead();
+    assert.isFalse(linkedList.contains(4));
+  });
+
+  it("expects head and tail to equal null with an empty list", function(){
+    linkedList.addToTail(5);
+    linkedList.removeHead();
+    assert.isTrue(linkedList.head === null);
+    assert.isTrue(linkedList.tail === null);
+  });
 });
