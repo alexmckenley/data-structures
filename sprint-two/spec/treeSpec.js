@@ -48,4 +48,35 @@ describe("tree", function() {
     assert.isFalse(tree.contains(5));
   });
 
+  it("should have a parent or it will be sad", function(){
+    tree.addChild(5);
+    tree.addChild(6);
+    assert.isTrue(tree.children[0].parent === tree);
+  });
+
+  it("should remove a tree from a parent", function(){
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[0].removeFromParent();
+    assert.isFalse(tree.contains(5));
+    expect(tree.children[0].removeFromParent()).to.equal(6);
+  });
+
+  it("should have the correct number of children", function(){
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.addChild(5);
+    tree.addChild(6);
+    tree.children[3].removeFromParent();
+    tree.children[3].removeFromParent();
+    tree.children[3].removeFromParent();
+    expect(tree.children.length).to.equal(7);
+  });
+
 });
