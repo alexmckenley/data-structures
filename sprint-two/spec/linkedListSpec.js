@@ -68,4 +68,18 @@ describe("linkedList", function() {
     assert.isTrue(linkedList.head === null);
     assert.isTrue(linkedList.tail === null);
   });
+
+  it("should reference the previous node correctly", function(){
+    linkedList.addToTail(4);
+    linkedList.addToTail(5);
+    expect(linkedList.tail.prev.value).to.equal(4);
+  });
+
+  it("should set the new head's previous pointer to null", function(){
+    linkedList.addToTail(4);
+    linkedList.addToTail(8);
+    linkedList.addToTail(5);
+    linkedList.removeHead();
+    expect(linkedList.head.prev).to.equal(null);
+  });
 });
