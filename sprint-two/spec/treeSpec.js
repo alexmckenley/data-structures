@@ -44,4 +44,8 @@ describe("tree", function() {
     assert.isTrue(tree.contains(8));
   });
 
+  it("it should return false upon an empty tree", function(){
+    assert.isFalse(tree.contains(5));
+  });
+
 });
