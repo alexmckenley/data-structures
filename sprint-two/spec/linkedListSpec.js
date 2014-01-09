@@ -82,4 +82,27 @@ describe("linkedList", function() {
     linkedList.removeHead();
     expect(linkedList.head.prev).to.equal(null);
   });
+
+  it("should add a new node at the head and make sure head === tail under single item list condition", function(){
+    linkedList.addToHead(3);
+    expect(linkedList.head.value).to.equal(3);
+    assert.isTrue(linkedList.tail === linkedList.head);
+  });
+
+  it("should add to head without changing tail", function(){
+    linkedList.addToHead(1);
+    linkedList.addToHead(2);
+    linkedList.addToHead(3);
+    expect(linkedList.head.value).to.equal(3);
+    expect(linkedList.tail.value).to.equal(1);
+    expect(linkedList.head.next.value).to.equal(2);
+  })
+
+  it("should remove the tail", function(){
+    linkedList.addToHead(1);
+    linkedList.addToHead(2);
+    linkedList.addToHead(3);
+    expect(linkedList.removeTail()).to.equal(1);
+    expect(linkedList.tail.value).to.equal(2);
+  });
 });
