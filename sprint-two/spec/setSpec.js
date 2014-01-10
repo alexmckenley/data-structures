@@ -34,10 +34,12 @@ describe("set", function() {
     set.add({});
     set.add(undefined);
     set.add(null);
+    set.add(function(){alert();});
     assert.isTrue(set.contains(9));
     assert.isTrue(set.contains(makeSet()));
     assert.isTrue(set.contains([]));
     assert.isTrue(set.contains({}));
+    assert.isTrue(set.contains(function(){alert();}));
   });
 
 });

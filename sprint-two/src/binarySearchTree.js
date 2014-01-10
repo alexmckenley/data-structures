@@ -1,30 +1,41 @@
-var makeBinarySearchTree = function(value){
+var makeBinarySearchTree = function(value, count){
   var bst = {};
   bst.left = null;
   bst.value = value;
   bst.right = null;
+  bst.maxDepth = 1;
+
   _.extend(bst, bstMethods);
 
   return bst;
 };
 
 var bstMethods = {
-  insert: function(value){
+  insert: function(value, count){
+    count = count || 2;
     if( value === this.value ){
       return;
     }
     if( value < this.value ){
       if (!this.left){
         this.left = makeBinarySearchTree(value);
-        return;
+        return count;
       }
-      this.left.insert(value);
+      count += 1;
+      count = this.left.insert(value, count);
     } else {
       if (!this.right){
         this.right = makeBinarySearchTree(value);
-        return;
+        return count;
       }
-      this.right.insert(value);
+      count += 1;
+      count = this.right.insert(value, count);
+    }
+    if (count > this.maxDepth){
+      this.maxDepth = count;
+      if((this.maxDepth / this.minDepth()) > 2){
+      }
+        //this.rebalance();
     }
   },
   depthFirstLog: function(func){
@@ -54,13 +65,78 @@ var bstMethods = {
       }
     }
   },
-  breadthFirstLog: function(queue){
+  breadthFirstLog: function(func, queue){
+    func = func || console.log(this.value);
     queue = queue || new Queue();
     this.left && queue.enqueue(this.left);
     this.right && queue.enqueue(this.right);
-    console.log(this.value);
+
     var node = queue.dequeue();
-    node && node.breadthFirstLog(queue);
+    node && node.breadthFirstLog(func, queue);
+
+  },
+  minDepth: function(){
+    var queue =  new Queue();
+    var foundNull = false;
+    var count = 0;
+    queue.enqueue(this);
+
+    var traverse = function(){
+      var node = queue.dequeue();
+      count += 1;
+      if(node.left){
+        queue.enqueue(node.left);
+      } else {
+        foundNull = true;
+      }
+      if(node.right){
+        queue.enqueue(node.right);
+      } else {
+        foundNull = true;
+      }
+      if(foundNull){
+        return;
+      }
+      traverse();
+    }
+    traverse();
+    return count;
+  },
+  rebalance: function(){
+    var that = this;
+    var allItems = [];
+    this.depthFirstLog(function(value){
+      allItems.push(value);
+    });
+    allItems.sort(function(a, b){
+      return a - b;
+    });
+    var middle = allItems.splice( Math.floor(allItems.length/2), 1 );
+    this.value = middle[0];
+    this.left = null;
+    this.right = null;
+    var firstHalf = allItems.splice(0, Math.floor(allItems.length/2));
+    
+
+    var insertRecursively = function(arr1, arr2){
+      if(arr1.length > 0){
+        var middle = arr1.splice( Math.floor(arr1.length/2), 1 );
+        that.insert(middle[0]);
+        var firstHalfarr1 = arr1.splice(0, Math.floor(arr1.length/2));
+        insertRecursively(firstHalfarr1, arr1);
+      }
+      if(arr2.length > 0){
+        var middle2 = arr2.splice( Math.floor(arr2.length/2), 1 );
+        that.insert(middle2[0]);
+        var firstHalfarr2 = arr2.splice(0, Math.floor(arr2.length/2));
+        insertRecursively(firstHalfarr2, arr2);
+      }
+
+    };
+    insertRecursively(firstHalf, allItems);
+  },
+  removeAll: function(){
+
   }
 };
 
