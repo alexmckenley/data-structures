@@ -21,25 +21,33 @@ describe("hashTable", function() {
   });
 
   it("should not contain values that were not inserted", function() {
-    hashTable.insert("Steven", "Spielberg");
-    expect(hashTable.retrieve("Steven")).not.to.equal("Seagal");
+    hashTable.insert("Stevefn", "Spdielberg");
+    hashTable.insert("Stevedn", "Spidelbergs");
+    hashTable.insert("Stevedsn", "Spidelbergf");
+    hashTable.insert("Stevesn", "Spielsbedrg");
+    hashTable.insert("Stevesn", "Spielbserg");
+    hashTable.insert("Stevden", "Spielbedrg");
+    hashTable.insert("Stefven", "Spielberfg");
+    hashTable.insert("Stdeven", "Spielberdg");
+    hashTable.insert("Steven", "Spielberfg");
+    expect(hashTable.retrieve("Stevedsn")).to.equal("Spidelbergf");
   });
 
   it("should not contain values that were removed", function() {
     hashTable.insert("Steven", "Tyler");
     hashTable.remove("Steven");
-    expect(hashTable.retrieve("Steven")).to.equal(null);
+    expect(hashTable.retrieve("Steven")).to.equal(undefined);
   });
 
   it("should handle hash function collisions", function(){
     expect(window.getIndexBelowMaxForKey).to.be.ok;
-    var v1 = 'val1', v2 = 'val2';
+    var v1 = 'val3', v2 = 'aal';
     hashTable.insert(v1, v1);
     hashTable.insert(v2, v2);
     expect(hashTable.retrieve(v1)).to.equal(v1);
     expect(hashTable.retrieve(v2)).to.equal(v2);
   });
-  
+
   // (Extra credit! Remove the extra 'x' when you want the following tests to run)
   it("should double in size when needed", function() {
     for (var i = 0; i < people.length; i++){
