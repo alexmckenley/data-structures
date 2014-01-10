@@ -40,3 +40,10 @@ treeMethods.removeFromParent = function(){
   return result.value;
 
 };
+
+treeMethods.traverse = function(iterator){
+  this.children.forEach(function(value){
+    value.traverse(iterator);
+  });
+  iterator(this.value);
+};
