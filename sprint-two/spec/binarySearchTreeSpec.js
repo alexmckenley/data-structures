@@ -39,4 +39,19 @@ describe("binarySearchTree", function() {
     assert.notStrictEqual(array, [5,2,3]);
     expect(JSON.stringify(array)).to.equal(JSON.stringify([5,2,3]));
   });
+
+  it("should rebalance the tree when it becomes unbalanced", function(){
+    var a = [];
+    var binarySearchTree = makeBinarySearchTree(5);
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(8);
+    binarySearchTree.insert(9);
+    binarySearchTree.insert(4);
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(1);
+    binarySearchTree.breadthFirstLog(function(value){a.push(value)});
+    expect(JSON.stringify(a)).to.equal(JSON.stringify([5,3,7,2,4,6,8,1,9]));
+  })
 });

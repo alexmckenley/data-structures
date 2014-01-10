@@ -13,6 +13,9 @@ var makeBinarySearchTree = function(value, count){
 var bstMethods = {
   insert: function(value, count){
     count = count || 2;
+    if((this.maxDepth / this.minDepth()) > 3){
+        this.rebalance();
+      }
     if( value === this.value ){
       return;
     }
@@ -33,9 +36,6 @@ var bstMethods = {
     }
     if (count > this.maxDepth){
       this.maxDepth = count;
-      if((this.maxDepth / this.minDepth()) > 2){
-      }
-        //this.rebalance();
     }
   },
   depthFirstLog: function(func){
@@ -66,14 +66,13 @@ var bstMethods = {
     }
   },
   breadthFirstLog: function(func, queue){
-    func = func || console.log(this.value);
+    func = func || function(value){console.log(value)};
+    func(this.value);
     queue = queue || new Queue();
     this.left && queue.enqueue(this.left);
     this.right && queue.enqueue(this.right);
-
     var node = queue.dequeue();
     node && node.breadthFirstLog(func, queue);
-
   },
   minDepth: function(){
     var queue =  new Queue();
