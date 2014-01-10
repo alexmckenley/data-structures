@@ -59,7 +59,7 @@ var bstMethods = {
     this.left && queue.enqueue(this.left);
     this.right && queue.enqueue(this.right);
     console.log(this.value);
-    var node = queue.dequeue()
+    var node = queue.dequeue();
     node && node.breadthFirstLog(queue);
   }
 };

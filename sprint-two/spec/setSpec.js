@@ -27,4 +27,17 @@ describe("set", function() {
     assert.isFalse(set.contains('Mel Gibson'));
   });
 
+  it("should handle all types of things", function(){
+    set.add(9);
+    set.add(makeSet());
+    set.add([]);
+    set.add({});
+    set.add(undefined);
+    set.add(null);
+    assert.isTrue(set.contains(9));
+    assert.isTrue(set.contains(makeSet()));
+    assert.isTrue(set.contains([]));
+    assert.isTrue(set.contains({}));
+  });
+
 });
