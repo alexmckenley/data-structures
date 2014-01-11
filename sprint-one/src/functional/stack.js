@@ -24,12 +24,6 @@ var makeStack = function(){
   instance.size = function(){
     return size;
   };
-<<<<<<< HEAD
 
   return instance;
   };
-=======
-  
-  return instance;
-};
->>>>>>> alex
