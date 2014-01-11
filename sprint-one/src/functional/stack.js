@@ -12,17 +12,24 @@ var makeStack = function(){
   };
 
   instance.pop = function(){
-    var temp = storage[size - 1];
-    if( size ){
+    var result;
+    if (size > 0){
+      result = storage[size - 1];
       delete storage[size - 1];
-      size -= 1;
-      return temp;
+      size --;
     }
+    return result;
   };
 
   instance.size = function(){
     return size;
   };
+<<<<<<< HEAD
 
   return instance;
   };
+=======
+  
+  return instance;
+};
+>>>>>>> alex

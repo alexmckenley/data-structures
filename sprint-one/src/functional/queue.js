@@ -9,21 +9,21 @@ var makeQueue = function(){
 
   instance.enqueue = function(value){
     storage[size] = value;
-    size += 1; 
+    size ++;
   };
 
   instance.dequeue = function(){
-    temp = storage[0];
-    if( size ){
-      _.each(storage, function(value, key){
-        if(+key){
-          storage[key - 1] = storage[key];
-        }
-      });
+    var result;
+    if (size > 0){
+      result = storage[0];
+      for (var i = 1; i < size + 1; i ++){
+        storage[i - 1] = storage[i];
+      }
       delete storage[size - 1];
-      size -= 1;
-      return temp;
+      size --;
     }
+    return result;
+
   };
 
   instance.size = function(){
