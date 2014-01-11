@@ -10,11 +10,12 @@ input.forEach(function(value, index){
     word.push(value);
   }
 });
+var counter = 1;
 var result = {};
 word.forEach(function(val, index){
   val = val.replace(/["']/g,"");
   val = val.toLowerCase();
-  result[val] = +rank[index];
+  result[val] = counter++;
 });
 
 
