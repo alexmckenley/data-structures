@@ -33,3 +33,35 @@ PrefixTree.prototype.insert = function(word, rank){
 
   recurse(this);
 };
+
+PrefixTree.prototype.predict = function(word){
+  word = word.split("");
+  var count = 0;
+  var result = null;
+
+  var recurse = function(startNode){
+    if(!startNode){
+      return result;
+    }
+    if(count >= word.length){
+      if(startNode._isWord){
+        result = word.join("");
+      } else {
+        var rank = startNode._rank;
+        for (var key in startNode._children){
+          if (startNode._children[key]._rank === rank){
+            word.push(key);
+            count += 1;
+            recurse(startNode._children[key]);
+          }
+        }
+      }
+    } else{
+      count += 1;
+      recurse(startNode._children[word[count - 1]]);
+    }
+  };
+
+  recurse(this);
+  return result;
+};

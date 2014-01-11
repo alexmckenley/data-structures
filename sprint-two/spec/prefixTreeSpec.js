@@ -23,7 +23,12 @@ describe("prefixTree", function() {
   });
 
   it("should retreive the best prediction given a string", function(){
-    expect(pt.predict("th").to.equal("the"));
+    console.log(pt.predict("hel"));
+    console.log(pt.predict("a"));
+    console.log(pt.predict("b"));
+    console.log(pt.predict("t"));
+    expect(pt.predict("th")).to.equal("the");
+
   });
   
 });
