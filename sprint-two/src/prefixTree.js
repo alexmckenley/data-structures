@@ -38,7 +38,7 @@ PrefixTree.prototype.predict = function(word){
   word = word.split("");
   var count = 0;
   var result = null;
-  var min = 3;
+  var min = null;
 
   var recurse = function(startNode){
     if(!startNode){
@@ -82,10 +82,10 @@ PrefixTree.prototype.tNine = function(digits){
     "0": []
   };
   digits = digits.toString().split("");
+  var length = digits.length;
   var words = [];
   var temp;
   var that = this;
-  //console.log(digits);
 
   var recurse = function(arr){
     var temp = [];
@@ -106,12 +106,23 @@ PrefixTree.prototype.tNine = function(digits){
     digits.splice(digits.length - 2, 2, temp);
   }
 
+  digits = _.flatten(digits);
+
   var results = [];
   digits.forEach(function(string){
-    results.push(this.predict(string));
+    results.push(that.predict(string));
   });
+  results = _.filter(results, function(value){
+    if (value.rank){
+      return true;
+    }
+    return false;
+  });
+  results = _.sortBy(results, 'rank');
 
-  _.sortBy(results, 'rank');
 
-  return results[0].word;
+  if (results[0]){
+    return results[0].word.slice(0, length);
+  }
+  return;
 };

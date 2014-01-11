@@ -22,13 +22,22 @@ describe("prefixTree", function() {
     expect(pt.insert).to.be.a('function');
   });
 
-  it("should retreive the best prediction given a string", function(){
+  // it("should retreive the best prediction given a string", function(){
+  //   // console.log(pt.predict("hel"));
+  //   // console.log(pt.predict("a"));
+  //   // console.log(pt.predict("b"));
+  //   // console.log(pt.predict("t"));
+  //   expect(pt.predict("th")).to.equal("the");
+
+  // });
+    it("should retreive the best prediction given a string", function(){
     // console.log(pt.predict("hel"));
     // console.log(pt.predict("a"));
     // console.log(pt.predict("b"));
     // console.log(pt.predict("t"));
-    expect(pt.predict("th")).to.equal("the");
+    expect(pt.tNine(84)).to.equal("the");
 
   });
-  
+
+
 });
