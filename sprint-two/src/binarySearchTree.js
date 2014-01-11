@@ -38,7 +38,7 @@ var bstMethods = {
       this.maxDepth = count;
     }
   },
-  depthFirstLog: function(func){
+  depthFirstLog: function(func){ // need to figure out; suspect broken
     func(this.value);
     if (this.left){
       this.left.depthFirstLog(func);

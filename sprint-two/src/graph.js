@@ -3,7 +3,7 @@ var Graph = function(){
 };
 
 Graph.prototype.addNode = function(newNode, toNode){
-  this.nodes[newNode] = {};
+  this.nodes[newNode] = {value: newNode};
   this.nodes[newNode].edges = [];
   if (_.keys(this.nodes).length === 2){
     this.addEdge(newNode, _.keys(this.nodes)[0]);
@@ -44,5 +44,11 @@ Graph.prototype.removeEdge = function(fromNode, toNode){
   }
   if (this.nodes[toNode].edges.length === 0){
     this.removeNode(toNode);
+  }
+};
+
+Graph.prototype.forEachNode = function(func){
+  for (var key in this.nodes){
+    func(this.nodes[key].value);
   }
 };
