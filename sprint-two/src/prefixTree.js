@@ -65,3 +65,44 @@ PrefixTree.prototype.predict = function(word){
   recurse(this);
   return result;
 };
+
+PrefixTree.prototype.tNine = function(digits){
+  var numberMap = {
+    "1": [],
+    "2": ["a", "b", "c"],
+    "3": ["d", "e", "f"],
+    "4": ["g", "h", "i"],
+    "5": ["j", "k", "l"],
+    "6": ["m", "n", "o"],
+    "7": ["p", "q", "r", "s"],
+    "8": ["t", "u", "v"],
+    "9": ["w", "x", "y", "z"],
+    "0": []
+  };
+  digits = digits.toString().split("");
+  var words = [];
+  var set = [];
+  var temp;
+  //console.log(digits);
+
+  var recurse = function(arr){
+    var temp = [];
+    numberMap[arr[arr.length - 2]].forEach(function(v){
+      arr[arr.length - 1].forEach(function(value){
+        temp.push(v + value);
+      });
+    });
+    return temp;
+  };
+
+  //change the last element of the array to letters
+  digits[digits.length - 1] = numberMap[digits[digits.length - 1]];
+
+  //while the length is greater than or equal to 2, recurse 
+  while(digits.length >= 2){
+    temp = recurse(digits);
+    digits.splice(digits.length - 2, 2, temp);
+  }
+
+  return digits ;
+};
