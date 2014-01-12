@@ -49,3 +49,23 @@ var getIndexBelowMaxForKey = function(str, max){
   }
   return hash % max;
 };
+
+var getIndexBelowMaxForKey2 = function(str, max){
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = (hash<<7) + hash * 2 + str.charCodeAt(i);
+    hash = hash & hash; // Convert to 32bit integer
+    hash = Math.abs(hash);
+  }
+  return hash % max;
+};
+
+var getIndexBelowMaxForKey3 = function(str, max){
+  var hash = 0;
+  for (var i = 0; i < str.length; i++) {
+    hash = (hash<<6) + hash * 3 + str.charCodeAt(i);
+    hash = hash & hash; // Convert to 32bit integer
+    hash = Math.abs(hash);
+  }
+  return hash % max;
+};
