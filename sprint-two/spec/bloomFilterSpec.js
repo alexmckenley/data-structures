@@ -4,7 +4,7 @@ describe("bloomFilter", function() {
   var bf;
 
   beforeEach(function() {
-    bf = new BloomFilter(18);
+    bf = new BloomFilter(100);
   });
 
   it("should accept values", function() {
