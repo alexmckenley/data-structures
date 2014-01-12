@@ -4,7 +4,7 @@ describe("bloomFilter", function() {
   var bf;
 
   beforeEach(function() {
-    bf = new BloomFilter(100000);
+    bf = new BloomFilter(18);
   });
 
   it("should accept values", function() {
@@ -21,7 +21,7 @@ describe("bloomFilter", function() {
     var keys = [];
     var retrieveAttempts = 10000;
     var temp;
-    for (var i = 1000; i >= 0; i--) {
+    for (var i = 10; i >= 0; i--) {
       temp = Math.random().toString();
       keys.push(temp);
       bf.insert(temp, i);

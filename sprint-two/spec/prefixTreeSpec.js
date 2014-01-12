@@ -35,7 +35,8 @@ describe("prefixTree", function() {
     // console.log(pt.predict("a"));
     // console.log(pt.predict("b"));
     // console.log(pt.predict("t"));
-    expect(pt.tNine(84)).to.equal("the");
+    expect(pt.tNine(84)).to.equal("th");
+    expect(pt.tNine(67426493)).to.equal("organize");
 
   });
 
