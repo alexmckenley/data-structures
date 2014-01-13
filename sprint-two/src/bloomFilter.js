@@ -25,9 +25,9 @@ BloomFilter.prototype.insert = function(key, value){
   element = ((i3 % this._limit)/8) === 1 ? Math.floor((i3 % this._limit)/8) - 1 : Math.floor((i3 % this._limit)/8);
   this._storage[element] = this._storage[element] | Math.pow(2, ( (i3 % this._limit) - (8 * element)) - 1 );
   
-  // // console.log(Math.pow(2, ( (i1 % this._limit) - (8 * (Math.floor((i1 % this._limit)/8))) )));
-  // console.log((i1 % this._limit));
   this._actualStorage[key] = value;
+
+  console.log(this._storage[0].toString(2).split("").reverse().join(""), this._storage[1].toString(2).split("").reverse().join(""), this._storage[2].toString(2).split("").reverse().join(""));
 };
 
 BloomFilter.prototype.retrieve = function(key){
