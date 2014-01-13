@@ -10,23 +10,25 @@ var BloomFilter = function(limit){
 };
 
 BloomFilter.prototype.insert = function(key, value){
-  var i1 = getIndexBelowMaxForKey(key, this._limit);
-  var i2 = getIndexBelowMaxForKey(key, this._limit);
-  var i3 = getIndexBelowMaxForKey(key, this._limit);
+  var i1 = murmurhash3_32_gc(key, "asdffdsa");
+  var i2 = murmurhash3_32_gc(key, "this._limit");
+  var i3 = murmurhash3_32_gc(key, "jkl;asdf");
 
-  this._storage[i1] = true;
-  this._storage[i2] = true;
-  this._storage[i3] = true;
+  console.log(i1 % this._limit, i2 % this._limit, i3 % this._limit);
+
+  this._storage[i1 % this._limit] = true;
+  this._storage[i2 % this._limit] = true;
+  this._storage[i3 % this._limit] = true;
 
   this._actualStorage[key] = value;
 };
 
 BloomFilter.prototype.retrieve = function(key){
-  var i1 = getIndexBelowMaxForKey(key, this._limit);
-  var i2 = getIndexBelowMaxForKey(key, this._limit);
-  var i3 = getIndexBelowMaxForKey(key, this._limit);
+  var i1 = murmurhash3_32_gc(key, "asdffdsa");
+  var i2 = murmurhash3_32_gc(key, "this._limit");
+  var i3 = murmurhash3_32_gc(key, "jkl;asdf");
 
-  if (this._storage[i1] && this._storage[i2] && this._storage[i3]){
+  if (this._storage[i1 % this._limit] && this._storage[i2 % this._limit] && this._storage[i3 % this._limit]){
     return true;
   }
   return false;
