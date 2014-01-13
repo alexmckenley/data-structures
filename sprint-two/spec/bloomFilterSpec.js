@@ -4,7 +4,7 @@ describe("bloomFilter", function() {
   var bf;
 
   beforeEach(function() {
-    bf = new BloomFilter(18);
+    bf = new BloomFilter(24);
   });
 
   it("should accept values", function() {
@@ -18,23 +18,23 @@ describe("bloomFilter", function() {
   });
 
   it("add items, retrieve items and log the stats", function(){
-    var keys = [];
+    var numberOfKeys = 5;
     var retrieveAttempts = 10000;
-    var temp;
-    for (var i = 4; i >= 0; i--) {
-      temp = Math.random().toString();
-      keys.push(temp);
-      bf.insert(temp, i);
+    var temp = [];
+    var words = JSON.parse($('#words').html());
+
+    for (var key in words){
+      temp.push(key);
     }
 
+    for (var i = 0; i < numberOfKeys; i += 1) {
+      bf.insert(temp[i], i);
+    }
 
     var results = [];
     for( i = retrieveAttempts; i >= 0; i-- ){
       results.push(bf.retrieve(Math.random().toString()));
     }
-    // keys.forEach(function(value){
-    //   results.push(bf.retrieve(value));
-    // });
 
     var trues = _.filter(results, function(value){
       if(value){
@@ -44,7 +44,6 @@ describe("bloomFilter", function() {
     }).length;
     
     console.log("Found ", trues, " false matches out of ", retrieveAttempts, " attempts.");
-    //console.log("Actual Positive Rate: ", keys.length/trues * 100);
     console.log("False Positive Rate: ", (trues/retrieveAttempts * 100).toFixed(2), "%");
   });
 
