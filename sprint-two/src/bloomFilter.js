@@ -1,25 +1,32 @@
 var BloomFilter = function(limit){
   this._limit = limit || 18;
   this._items = 0;
-  this._storage = [];
+  this._storage = new Uint8Array(new ArrayBuffer(Math.ceil(this._limit/8)));
   this._actualStorage = {};
-
-  for (var i = 0; i < 18; i++) {
-    this._storage.push(false);
-  }
+  //console.log(this._storage.length, limit);
 };
 
 BloomFilter.prototype.insert = function(key, value){
   var i1 = murmurhash3_32_gc(key, 123321);
   var i2 = murmurhash3_32_gc(key, 78945641);
   var i3 = murmurhash3_32_gc(key, 123456789);
+  var element;
 
-  //console.log(i1 % this._limit, i2 % this._limit, i3 % this._limit);
+  // console.log("index=", (i1 % this._limit));
+  // console.log("element in array=", ((i1 % this._limit)/8) === 1 ? Math.floor((i1 % this._limit)/8) - 1 : Math.floor((i1 % this._limit)/8) );
+  // element = ((i1 % this._limit)/8) === 1 ? Math.floor((i1 % this._limit)/8) - 1 : Math.floor((i1 % this._limit)/8);
+  // console.log("element value=", this._storage[Math.floor((i1 % this._limit)/8)].toString(2));
+  // console.log("or'ing with=", Math.pow(2, ( (i1 % this._limit) - (8 * element )) - 1).toString(2));
 
-  this._storage[i1 % this._limit] = true;
-  this._storage[i2 % this._limit] = true;
-  this._storage[i3 % this._limit] = true;
-
+  element = ((i1 % this._limit)/8) === 1 ? Math.floor((i1 % this._limit)/8) - 1 : Math.floor((i1 % this._limit)/8);
+  this._storage[element] = this._storage[element] | Math.pow(2, ( (i1 % this._limit) - (8 * element)) - 1 );
+  element = ((i2 % this._limit)/8) === 1 ? Math.floor((i2 % this._limit)/8) - 1 : Math.floor((i2 % this._limit)/8);
+  this._storage[element] = this._storage[element] | Math.pow(2, ( (i2 % this._limit) - (8 * element)) - 1 );
+  element = ((i3 % this._limit)/8) === 1 ? Math.floor((i3 % this._limit)/8) - 1 : Math.floor((i3 % this._limit)/8);
+  this._storage[element] = this._storage[element] | Math.pow(2, ( (i3 % this._limit) - (8 * element)) - 1 );
+  
+  // // console.log(Math.pow(2, ( (i1 % this._limit) - (8 * (Math.floor((i1 % this._limit)/8))) )));
+  // console.log((i1 % this._limit));
   this._actualStorage[key] = value;
 };
 
@@ -28,7 +35,15 @@ BloomFilter.prototype.retrieve = function(key){
   var i2 = murmurhash3_32_gc(key, 78945641);
   var i3 = murmurhash3_32_gc(key, 123456789);
 
-  if (this._storage[i1 % this._limit] && this._storage[i2 % this._limit] && this._storage[i3 % this._limit]){
+  var element = ((i1 % this._limit)/8) === 1 ? Math.floor((i1 % this._limit)/8) - 1 : Math.floor((i1 % this._limit)/8);
+  var val1 = this._storage[element] & Math.pow(2, ( (i1 % this._limit) - (8 * element)) - 1 );
+  element = ((i2 % this._limit)/8) === 1 ? Math.floor((i2 % this._limit)/8) - 1 : Math.floor((i2 % this._limit)/8);
+  var val2 = this._storage[element] & Math.pow(2, ( (i2 % this._limit) - (8 * element)) - 1 );
+  element = ((i3 % this._limit)/8) === 1 ? Math.floor((i3 % this._limit)/8) - 1 : Math.floor((i3 % this._limit)/8);
+  var val3 = this._storage[element] & Math.pow(2, ( (i3 % this._limit) - (8 * element)) - 1 );
+  //console.log(val1, val2, val3);
+
+  if (val1 && val2 && val3){
     return true;
   }
   return false;
