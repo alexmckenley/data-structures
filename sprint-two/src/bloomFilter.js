@@ -12,7 +12,7 @@ BloomFilter.prototype.insert = function(key, value){
   var i3 = murmurhash3_32_gc(key, 123456789);
   var element;
 
-  // console.log("index=", (i1 % this._limit));
+  //console.log("index=", (i1 % this._limit), (i2 % this._limit), (i3 % this._limit));
   // console.log("element in array=", ((i1 % this._limit)/8) === 1 ? Math.floor((i1 % this._limit)/8) - 1 : Math.floor((i1 % this._limit)/8) );
   // element = ((i1 % this._limit)/8) === 1 ? Math.floor((i1 % this._limit)/8) - 1 : Math.floor((i1 % this._limit)/8);
   // console.log("element value=", this._storage[Math.floor((i1 % this._limit)/8)].toString(2));
@@ -26,8 +26,8 @@ BloomFilter.prototype.insert = function(key, value){
   this._storage[element] = this._storage[element] | Math.pow(2, ( (i3 % this._limit) - (8 * element)) );
   
   this._actualStorage[key] = value;
-
-  //console.log(this._storage[0].toString(2).split("").reverse().join(""), this._storage[1].toString(2).split("").reverse().join(""), this._storage[2].toString(2).split("").reverse().join(""));
+  // console.log(this._storage[ Math.floor((i1 % this._limit)/8)], this._storage[ Math.floor((i2 % this._limit)/8)], this._storage[ Math.floor((i3 % this._limit)/8)])
+  // console.log(this._storage[0].toString(2).split("").reverse().join(""), this._storage[1].toString(2).split("").reverse().join(""), this._storage[2].toString(2).split("").reverse().join(""));
 };
 
 BloomFilter.prototype.retrieve = function(key){
@@ -35,13 +35,17 @@ BloomFilter.prototype.retrieve = function(key){
   var i2 = murmurhash3_32_gc(key, 78945641);
   var i3 = murmurhash3_32_gc(key, 123456789);
 
+  // console.log("index=", (i1 % this._limit), (i2 % this._limit), (i3 % this._limit));
+
+
   var element = Math.floor((i1 % this._limit)/8);
-  var val1 = this._storage[element] & Math.pow(2, ( (i1 % this._limit) - (8 * element)) - 1 );
+  var val1 = this._storage[element] & Math.pow(2, ( (i1 % this._limit) - (8 * element)) );
   element = Math.floor((i2 % this._limit)/8);
-  var val2 = this._storage[element] & Math.pow(2, ( (i2 % this._limit) - (8 * element)) - 1 );
+  var val2 = this._storage[element] & Math.pow(2, ( (i2 % this._limit) - (8 * element)) );
   element = Math.floor((i3 % this._limit)/8);
-  var val3 = this._storage[element] & Math.pow(2, ( (i3 % this._limit) - (8 * element)) - 1 );
-  //console.log(val1, val2, val3);
+  var val3 = this._storage[element] & Math.pow(2, ( (i3 % this._limit) - (8 * element)) );
+  // console.log(val1, val2, val3);
+  // console.log(this._storage[0].toString(2).split("").reverse().join(""), this._storage[1].toString(2).split("").reverse().join(""), this._storage[2].toString(2).split("").reverse().join(""));
 
   if (val1 && val2 && val3){
     return true;
